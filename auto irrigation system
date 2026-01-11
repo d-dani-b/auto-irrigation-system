@@ -1,0 +1,49 @@
+//code for the system
+
+const int IN1 = 6;
+const int IN2 = 7;
+const int ENA = 5;
+const int sensorPin = A0;
+
+// Based on your real readings
+// Air ≈ 650
+// Water ≈ 20
+int dryOn  = 380;   // pump turns ON above this
+int wetOff = 280;   // pump turns OFF below this
+
+bool pumpOn = false;
+
+void setup() {
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int moisture = analogRead(sensorPin);
+  Serial.print("Soil: ");
+  Serial.println(moisture);
+
+  // Turn pump ON when soil gets dry
+  if (moisture > dryOn && pumpOn == false) {
+    pumpOn = true;
+  }
+
+  // Turn pump OFF when soil is wet enough
+  if (moisture < wetOff && pumpOn == true) {
+    pumpOn = false;
+  }
+
+  // Control the pump
+  if (pumpOn) {
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    analogWrite(ENA, 200);   // strong but not max
+  } else {
+    analogWrite(ENA, 0);
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, LOW);
+  }
+
+  delay(1000);

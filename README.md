@@ -1,0 +1,1 @@
+ Arduino-based technology to monitor soil moisture levels in real-time then can transmit the readings to my PC (up to 2,000,000 times per second). When the soil is dehydrated, the system automatically activates a water pump to irrigate the plant, then stops when optimal moisture is reached
